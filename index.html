@@ -601,7 +601,7 @@ var BI={
  email:['<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>','fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"']};
 function tile(id,cls){var p=PL[id];return '<span class="ti'+(id=='instagram'?' ig':'')+(id=='tiktok'?' tk':'')+(cls?' '+cls:'')+'" style="--bc:'+p[3]+';--fc:'+(p[4]||'#fff')+'">'+svg(BI[id][0],BI[id][1])+'</span>'}
 /* follower counts: refreshed automatically by a scheduled task (Metricool + public profile pages). Keep this on one line. */
-var FOLLOW={"updated":"2026-10-15","counts":{"telegram":6379,"instagram":1616,"threads":748,"youtube":434,"tiktok":248,"facebook":14}};
+var FOLLOW={"updated":"2026-10-19","counts":{"telegram":6434,"instagram":1612,"threads":748,"youtube":434,"tiktok":248,"facebook":14}};
 var FK={telegram:'f1',instagram:'f2',threads:'f3',youtube:'f4',tiktok:'f5',facebook:'f6'};
 var TOP=Object.keys(FOLLOW.counts).filter(function(k){return FK[k]&&FOLLOW.counts[k]>0}).map(function(k){return [k,FOLLOW.counts[k],FK[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5),TOT=TOP.reduce(function(a,t){return a+t[1]},0);
 function updTxt(){var d=new Date(FOLLOW.updated+'T12:00:00');return T[lang].upd+' '+d.toLocaleDateString(lang=='ar'?'ar-u-ca-gregory-nu-latn':'en-GB',{day:'numeric',month:'long',year:'numeric'})}
