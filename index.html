@@ -791,7 +791,18 @@ D.addEventListener('click',function(e){var t=e.target.closest('[data-track]');if
 function copyTxt(m){if(navigator.clipboard)navigator.clipboard.writeText(m).then(function(){say(T[lang].rqCopied)},function(){say(m)});else say(m)}
 /* easter egg: five quick taps on the WF logo and letters rain down */
 var egN=0,egT=0;
-function rainLetters(){if(reduce)return;var W=innerWidth;for(var k=0;k<90;k++){var b=mk(-40-Math.random()*640,Math.random()<.6?'w':'o');b.x=Math.random()*W;b.s=14+Math.random()*26;b.vx=0;b.by=5+Math.random()*5;b.fall=1;b.l=1;b.dl=.0028;b.a=.9;burst.push(b)}}
+function rainLetters(){if(reduce)return;
+ var cv2=D.createElement('canvas'),W=innerWidth,H=innerHeight,d=Math.min(devicePixelRatio||1,2);
+ cv2.width=W*d;cv2.height=H*d;cv2.setAttribute('aria-hidden','true');cv2.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:60;pointer-events:none';D.body.appendChild(cv2);
+ var x=cv2.getContext('2d');x.scale(d,d);x.textAlign='center';x.textBaseline='middle';
+ var n=Math.min(240,Math.max(90,Math.round(W/6))),L=[],t0=performance.now(),last=t0;
+ for(var k=0;k<n;k++){var big=Math.random()<.25;L.push({x:Math.random()*W,y:-60,d:Math.random()*1800,s:(big?36:16)+Math.random()*(big?22:14),v:340+Math.random()*420,t:Math.random()<.55?'W':'و',ph:Math.random()*6.28,r:(Math.random()-.5)*1.2,vr:(Math.random()-.5)*2.4,o:Math.random()<.45,c:Math.random()<.7?DC:IRGB})}
+ setTimeout(function(){cv2.remove()},14000);
+ (function f(now){var dt=Math.min(.12,(now-last)/1000),live=0;last=now;x.clearRect(0,0,W,H);
+  L.forEach(function(p){if(now-t0<p.d){live++;return}p.y+=p.v*dt;p.ph+=dt*2.2;p.r+=p.vr*dt;if(p.y>H+60)return;live++;
+   x.save();x.translate(p.x+Math.sin(p.ph)*16,p.y);x.rotate(p.r);x.globalAlpha=Math.min(1,(p.y+60)/160)*.9;x.font='700 '+p.s+'px "Readex Pro","IBM Plex Sans Arabic",sans-serif';
+   if(p.o){x.lineWidth=1.6;x.strokeStyle='rgb('+p.c+')';x.strokeText(p.t,0,0)}else{x.fillStyle='rgb('+p.c+')';x.fillText(p.t,0,0)}x.restore()});
+  if(live)requestAnimationFrame(f);else cv2.remove()})(t0)}
 function eggTap(){var n=performance.now();egN=(n-egT<1800)?egN+1:1;egT=n;if(egN>=5){egN=0;rainLetters();track('easter-egg');say(phrase())}}
 D.querySelector('.logo').addEventListener('click',eggTap);bd.addEventListener('click',eggTap);
 /* letters burst out of a point (used when the email is copied) */
