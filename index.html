@@ -8,6 +8,16 @@
 <meta name="theme-color" content="#f4f6fa">
 <meta property="og:title" content="وليد فوزي">
 <meta property="og:description" content="محتوى متنوع وفريد من نوعه، وخدمات تصميم وإدارة حسابات.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://waledfaozi.github.io/">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:image" content="https://waledfaozi.github.io/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="وليد فوزي">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://waledfaozi.github.io/og.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23111826'/%3E%3Ctext x='50' y='64' font-size='40' font-weight='700' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3EW%3Ctspan fill='%23dba64e'%3EF%3C/tspan%3E%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -222,6 +232,10 @@ html[dir=ltr] .sh .tx span{background-position:0 100%}
 .stg::before{content:"";position:absolute;inset:0;background:linear-gradient(var(--ghost) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,var(--ghost) 1px,transparent 1px) 0 0/28px 28px;-webkit-mask:radial-gradient(circle at 50% 50%,#000,transparent 75%);mask:radial-gradient(circle at 50% 50%,#000,transparent 75%)}
 .pvt p{max-width:30em;color:var(--soft);font-size:clamp(17px,2vw,19px);line-height:1.9}
 .pvt .btn{margin-top:20px}
+.rq{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:20px}
+.rq .btn{margin-top:0}
+.rq-mail{color:var(--mute);font:500 14px var(--fd);text-decoration:underline dotted;text-underline-offset:5px;transition:color .25s}
+.rq-mail:hover,.rq-mail:focus-visible{color:var(--gold);outline:none}
 .m{position:relative}
 /* 0 posts */
 .m0 .g9{display:grid;grid-template-columns:repeat(3,54px);gap:8px}
@@ -462,7 +476,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin
       <h1><span data-k="h1a">وليد</span> <span data-k="h1b">فوزي</span></h1>
       <p class="roles hx" style="--d:.35s"><span id="type"></span></p>
       <p class="sub hx" style="--d:.5s" data-k="sub">محتوى متنوع وفريد من نوعه، وخدمات تصميم وإدارة حسابات.</p>
-      <div class="cta hx" style="--d:.65s"><a class="btn pri mag" href="#contact"><span data-k="cta1">ابدأ مشروعك معي</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a><a class="btn mag" href="#work" data-k="cta2">استكشف الخدمات</a></div>
+      <div class="cta hx" style="--d:.65s"><a class="btn pri mag" href="#contact" data-track="cta-start"><span data-k="cta1">ابدأ مشروعك معي</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a><a class="btn mag" href="#work" data-track="cta-services" data-k="cta2">استكشف الخدمات</a></div>
     </div>
     <div class="stage hx" style="--d:.3s"><div id="badge">
       <svg viewBox="0 0 200 200" aria-hidden="true">
@@ -507,7 +521,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin
     <div class="cbox rv">
       <p class="big" data-k="cBig"></p>
       <p data-k="cSub"></p>
-      <div class="cta"><a class="btn pri mag" href="mailto:waledfaozi@gmail.com"><span dir="ltr">waledfaozi@gmail.com</span></a><button id="copy" class="btn mag" type="button" data-k="copy">نسخ البريد</button></div>
+      <div class="cta"><a class="btn pri mag" href="mailto:waledfaozi@gmail.com" data-track="email-click"><span dir="ltr">waledfaozi@gmail.com</span></a><button id="copy" class="btn mag" type="button" data-track="email-copy" data-k="copy">نسخ البريد</button></div>
     </div>
     <div class="fh rv"><h3 data-k="hFollow">تابعني</h3><p data-k="sdFollow"></p></div>
     <div class="dock rv" id="social"></div>
@@ -559,10 +573,12 @@ function svToggle(i){var items=[].slice.call($('svc').children);svOpen=(svOpen==
 function buildSvc(){var box=$('svc');box.innerHTML='';
  SV[lang].forEach(function(s,i){var it=D.createElement('div');it.className='sv';it.dataset.i=i;it.style.setProperty('--i',i);
   it.innerHTML='<button class="sh" type="button" id="svb'+i+'" aria-expanded="false" aria-controls="svp'+i+'"><span class="ic">'+svg(ICO[i],'fill="currentColor"')+'</span><span class="tx"><span></span></span><span class="pm" aria-hidden="true"></span></button>'
-   +'<div class="pv" id="svp'+i+'" role="region" aria-labelledby="svb'+i+'"><div class="pvi"><div class="stg" aria-hidden="true">'+MOCK[i]+'</div><div class="pvt"><p></p><a class="btn pri" href="#contact"></a></div></div></div>';
-  it.querySelector('.tx span').textContent=s;it.querySelector('p').textContent=SD[lang][i];it.querySelector('.btn').textContent=T[lang].req;
+   +'<div class="pv" id="svp'+i+'" role="region" aria-labelledby="svb'+i+'"><div class="pvi"><div class="stg" aria-hidden="true">'+MOCK[i]+'</div><div class="pvt"><p></p><div class="rq"><a class="btn pri rq-tg" href="https://t.me/WaledFaoziBot" target="_blank" rel="noopener" data-track="request-'+i+'"></a><a class="rq-mail" data-track="request-mail-'+i+'"></a></div></div></div></div>';
+  it.querySelector('.tx span').textContent=s;it.querySelector('p').textContent=SD[lang][i];var rtg=it.querySelector('.rq-tg'),rml=it.querySelector('.rq-mail'),rmsg=T[lang].rqMsg.replace('{s}',s);rtg.textContent=T[lang].req;rml.textContent=T[lang].rqMail;
+  rml.href='mailto:waledfaozi@gmail.com?subject='+encodeURIComponent(T[lang].rqSub.replace('{s}',s))+'&body='+encodeURIComponent(rmsg);
+  rtg.addEventListener('click',function(){copyTxt(rmsg)});
   var b=it.querySelector('.sh');
-  b.addEventListener('click',function(){svToggle(i)});
+  b.addEventListener('click',function(){svToggle(i);track('service-'+(i+1))});
   b.addEventListener('keydown',function(e){if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();var n=(i+(e.key=='ArrowDown'?1:SV[lang].length-1))%SV[lang].length;box.children[n].querySelector('.sh').focus()}});
   b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.setProperty('--mx',(e.clientX-r.left)+'px');b.style.setProperty('--my',(e.clientY-r.top)+'px')});
   box.appendChild(it);if(i==svOpen)svApply(it,true,true)})}
@@ -628,7 +644,7 @@ $('tot').addEventListener('pointermove',function(e){var r=this.getBoundingClient
 /* follow dock */
 var so=$('social');
 function buildDock(){var i=lang=='ar'?0:1;so.innerHTML='';
- ORDER.forEach(function(id){var p=PL[id],a=D.createElement('a');a.className='dk';a.href=p[2];if(p[2].indexOf('http')==0){a.target='_blank';a.rel='noopener'}
+ ORDER.forEach(function(id){var p=PL[id],a=D.createElement('a');a.className='dk';a.dataset.track='platform-'+id;a.href=p[2];if(p[2].indexOf('http')==0){a.target='_blank';a.rel='noopener'}
   a.setAttribute('aria-label',p[i]);a.innerHTML=tile(id)+'<span class="lb"></span>';a.querySelector('.lb').textContent=p[i];so.appendChild(a)})}
 function dockOn(){return fine&&innerWidth>900&&!reduce}
 so.addEventListener('pointermove',function(e){if(!dockOn())return;[].forEach.call(so.children,function(a){var r=a.getBoundingClientRect(),d=Math.abs(e.clientX-(r.left+r.width/2));a.style.setProperty('--s',(1+.62*Math.max(0,1-d/160)).toFixed(3))})});
@@ -675,7 +691,7 @@ function draw(){
       f.ph+=.012;f.vx*=.94;f.x+=Math.sin(f.ph)*.35+f.vx;f.y+=f.vy-ds*f.s/40;f.rot+=f.vr;
       if(f.y<-40){fly[i]=mk(Hh+30);continue}if(f.y>Hh+60)f.y=-30;if(f.x<-40)f.x=W+30;if(f.x>W+40)f.x=-30}
     paint(f,f.a)}
-  for(i=burst.length-1;i>=0;i--){var b=burst[i];b.l-=(b.dl||.016);if(b.l<=0){burst.splice(i,1);continue}b.x+=b.vx;b.y+=b.by;b.vx*=.96;b.by=b.by*.96-.04;b.rot+=b.vr*4;paint(b,b.l*b.a)}
+  for(i=burst.length-1;i>=0;i--){var b=burst[i];b.l-=(b.dl||.016);if(b.l<=0){burst.splice(i,1);continue}b.x+=b.vx;b.y+=b.by;if(b.fall){b.x+=Math.sin((b.ph+=.05))*.7}else{b.vx*=.96;b.by=b.by*.96-.04}b.rot+=b.vr*4;paint(b,(b.fall?Math.min(1,b.l*3):b.l)*b.a)}
   cx2+=(mx-cx2)*.2;cy2+=(my-cy2)*.2;cur.style.transform='translate('+cx2+'px,'+cy2+'px)';
   if(!reduce&&mx>=0){rx+=((.5-my/innerHeight)*24-rx)*.08;ry+=((mx/innerWidth-.5)*24-ry)*.08;bd.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)'}
   requestAnimationFrame(draw)}
@@ -754,7 +770,7 @@ function buildSheet(){var l=$('shl'),MD={reach:'mReach',about:'mAbout',work:'mSv
  navA.forEach(function(a,i){var id=a.getAttribute('href').slice(1),x=D.createElement('a');x.href='#'+id;x.style.setProperty('--i',i);if(cur=='#'+id)x.className='act';
   x.innerHTML='<b></b><small></small>'+svg(CHEV).replace('<svg','<svg class="ar"');x.querySelector('b').textContent=T[lang][a.dataset.k];x.querySelector('small').textContent=T[lang][MD[id]];
   x.addEventListener('click',function(){menu(false)});l.appendChild(x)});
- var s=$('shsoc');s.innerHTML='';TOP.forEach(function(t){var p=PL[t[0]],a=D.createElement('a');a.href=p[2];a.target='_blank';a.rel='noopener';a.setAttribute('aria-label',p[lang=='ar'?0:1]);a.innerHTML=tile(t[0]);s.appendChild(a)})}
+ var s=$('shsoc');s.innerHTML='';TOP.forEach(function(t){var p=PL[t[0]],a=D.createElement('a');a.dataset.track='menu-platform-'+t[0];a.href=p[2];a.target='_blank';a.rel='noopener';a.setAttribute('aria-label',p[lang=='ar'?0:1]);a.innerHTML=tile(t[0]);s.appendChild(a)})}
 $('menu').addEventListener('pointerenter',function(){if(!R.classList.contains('menu-open'))buildSheet()});
 $('menu').addEventListener('focus',function(){if(!R.classList.contains('menu-open'))buildSheet()});
 
@@ -769,6 +785,15 @@ addEventListener('scroll',fillLead,{passive:true});
 /* ripple on every button press */
 D.addEventListener('pointerdown',function(e){var b=e.target.closest('.btn,.jarr,.ctl button');if(!b||reduce)return;var r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,s=D.createElement('span');s.className='rip';
   s.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-r.left-d/2)+'px;top:'+(e.clientY-r.top-d/2)+'px';b.appendChild(s);setTimeout(function(){s.remove()},700)});
+/* analytics events (GoatCounter): which buttons and platforms people press */
+function track(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:n,title:n,event:true})}catch(e){}}
+D.addEventListener('click',function(e){var t=e.target.closest('[data-track]');if(t)track(t.dataset.track)});
+function copyTxt(m){if(navigator.clipboard)navigator.clipboard.writeText(m).then(function(){say(T[lang].rqCopied)},function(){say(m)});else say(m)}
+/* easter egg: five quick taps on the WF logo and letters rain down */
+var egN=0,egT=0;
+function rainLetters(){if(reduce)return;var W=innerWidth;for(var k=0;k<90;k++){var b=mk(-40-Math.random()*640,Math.random()<.6?'w':'o');b.x=Math.random()*W;b.s=14+Math.random()*26;b.vx=0;b.by=5+Math.random()*5;b.fall=1;b.l=1;b.dl=.0028;b.a=.9;burst.push(b)}}
+function eggTap(){var n=performance.now();egN=(n-egT<1800)?egN+1:1;egT=n;if(egN>=5){egN=0;rainLetters();track('easter-egg');say(phrase())}}
+D.querySelector('.logo').addEventListener('click',eggTap);bd.addEventListener('click',eggTap);
 /* letters burst out of a point (used when the email is copied) */
 function burstAt(x,y,n){if(reduce)return;for(var k=0;k<n;k++){var b=mk(y,Math.random()<.6?'w':'o'),an=Math.random()*6.283,v=2+Math.random()*4;b.x=x;b.s=12+Math.random()*14;b.vx=Math.cos(an)*v;b.by=Math.sin(an)*v-1;b.l=1;b.a=.85;burst.push(b)}}
 
@@ -776,13 +801,13 @@ function burstAt(x,y,n){if(reduce)return;for(var k=0;k<n;k++){var b=mk(y,Math.ra
 var T={ar:{title:'وليد فوزي',name:'وليد فوزي',nReach:'جمهوري',nAbout:'نبذة',nSvc:'الخدمات',nLife:'رحلتي',nContact:'تواصل',menu:'القائمة',mReach:'الأرقام والمنصات',mAbout:'قصتي ورحلتي',mSvc:'ما أقدمه لك',mContact:'لنعمل معًا',cta1:'ابدأ مشروعك معي',cta2:'استكشف الخدمات',
 hReach:'جمهوري على المنصات',sdReach:'مجموع المتابعين في أكبر خمس منصات أنشر عليها. مرّر على أي منصة في الشريط لترى رقمها.',jsub:'اسحب البطاقات أو اضغط على السنة',g0:'البداية',g1:'التخرج',gS:'المدرسة',gU:'الجامعة',
 s1h:'المرحلة الابتدائية',s1m:'أولى خطواتي في التعلّم؛ هنا تكوّنت الأساسيات وبدأ الفضول وحب الاكتشاف.',s2h:'المرحلة المتوسطة',s2m:'مرحلة اكتشاف الاهتمامات وبناء الشخصية والثقة بالنفس.',s3h:'المرحلة الثانوية',s3m:'بدأت أرسم طريقي نحو الهندسة واستعددت للدراسة الجامعية.',u1h:'بداية الدراسة الجامعية',u1m:'التحقت ببرنامج بكالوريوس تكنولوجيا الهندسة المدنية.',g2:'الهندسة',g3:'المبيعات',g4:'خدمة العملاء',gP:'ترقية ↑',gO:'مستمر حتى اليوم',a1h:'مساعد إداري',a1m:'ترقية إلى منصب مساعد إداري. حافظت على أنظمة أرشفة منظمة وسجلات دقيقة، ونسّقت بين الأقسام. وما زلت مساعدًا إداريًا حتى اليوم.',c1h:'موظف خدمة عملاء',c1m:'بدأت رحلتي في خدمة العملاء بالرد على استفسارات العملاء، ومتابعة طلباتهم، وحل مشكلاتهم.',g5:'الإدارة',g6:'الآن',totL:'متابع ومشترك في أكبر خمس منصات',f1:'مشترك في تيليجرام',f2:'متابع على إنستغرام',f3:'متابع على ثريدز',f4:'مشترك في يوتيوب',f5:'متابع على تيك توك',f6:'متابع على فيسبوك',upd:'آخر تحديث للأرقام:',
-sdSvc:'اختر خدمة لترى كيف أعمل عليها.',req:'اطلب الخدمة',sdFollow:'كل حساباتي في مكان واحد.',
+sdSvc:'اختر خدمة لترى كيف أعمل عليها.',req:'اطلب الخدمة',rqMsg:'السلام عليكم، أرغب بطلب خدمة: {s}',rqSub:'طلب خدمة: {s}',rqMail:'أو عبر البريد',rqCopied:'تم نسخ رسالتك، الصقها في محادثة تيليجرام',sdFollow:'كل حساباتي في مكان واحد.',
 fEduL:'التعليم',fEdu:'بكالوريوس تكنولوجيا في الهندسة المدنية',fLangL:'اللغات',fLang:'العربية (لغتي الأم)، والإنجليزية بطلاقة',fFocL:'المجالات',fFoc:'الهندسة، الإدارة، خدمة العملاء، صناعة المحتوى والتصميم',
 profile:'مهندس مدني يهتم بالتفاصيل، شغوف بالابتكار وسريع التكيف، وملتزم بتقديم نتائج بجودة عالية من خلال خبرتي الهندسية والإدارية.',j1h:'مهندس إنشائي، مشروع خرسانة',j1m:'ساعدت في تصميم ومراجعة المنشآت الخرسانية، وأعددت رسومات AutoCAD وحصر الكميات، وتابعت جودة التنفيذ في الموقع.',j2h:'مندوب مبيعات في مطعم وجبات سريعة',j2m:'استقبلت العملاء وأخذت الطلبات، وشغّلت نظام نقاط البيع، وعالجت شكاوى العملاء بسرعة واحترافية.',j3h:'مدير خدمة العملاء',j3m:'ترقية من موظف إلى مدير خدمة العملاء. حافظت على رضا العملاء فوق 90%، ودرّبت أكثر من 5 أعضاء جدد، ونسّقت بين الأقسام وفرق التوصيل.',j4h:'مساعد إداري ومسؤول الجودة والتطوير',j4m:'ما زلت أعمل حتى اليوم في الشركة مساعدًا إداريًا ومسؤولًا للجودة والتطوير. وبجانب ذلك أصنع المحتوى وأقدم خدمات التصميم وإدارة الحسابات.',h1a:'وليد',h1b:'فوزي',sub:'محتوى متنوع وفريد من نوعه، وخدمات تصميم وإدارة حسابات.',hAbout:'نبذة عني',about:'أهلًا بالجميع، اسمي وليد فوزي. إنه لمن دواعي سروري التعرف على الجميع هنا! أقدم محتوى متنوع وفريد من نوعه. أود أن أشكركم على دعمكم المتواصل لي، وأتمنى أن أستمر في تقديم الأفضل لكم. أحبكم.',hSvc:'الخدمات المقدمة',hLife:'رحلتي',ev1h:'بداية الحكاية',ev1m:'وُلدت في هذا العام، وبدأت منه الرحلة.',ev2h:'التخرج في الهندسة المدنية',ev2m:'بكالوريوس تكنولوجيا في الهندسة المدنية.',ev4h:'اليوم',ev4m:'ما زلت أعمل في الشركة مساعدًا إداريًا ومسؤولًا للجودة والتطوير، وبجانب ذلك أصنع المحتوى وأقدم خدمات التصميم وإدارة الحسابات، وأستمر في التطور.',more:'اضغط على البطاقة لقلبها',cBig:'لنصنع شيئًا استثنائيًا معًا',cSub:'لديك فكرة أو مشروع؟ راسلني وسأرد عليك في أقرب وقت.',copy:'نسخ البريد',copied:'تم نسخ البريد',hFollow:'تابعني',foot:'جميع الحقوق محفوظة لمالك الموقع'},
 en:{title:'Waled Fozi',name:'Waled Fozi',nReach:'Audience',nAbout:'About',nSvc:'Services',nLife:'Journey',nContact:'Contact',menu:'Menu',mReach:'Numbers & platforms',mAbout:'My story & journey',mSvc:'What I offer',mContact:"Let's work together",cta1:'Start a project',cta2:'Explore services',
 hReach:'My audience',sdReach:'Total followers across my five biggest platforms. Point at a platform in the bar to see its number.',jsub:'Swipe the cards or tap a year',g0:'Origin',g1:'Graduation',gS:'School',gU:'University',
 s1h:'Primary school',s1m:'My first steps in learning, where the basics took shape and curiosity began.',s2h:'Middle school',s2m:'Discovering my interests and building character and self-confidence.',s3h:'High school',s3m:'Started drawing my path toward engineering and prepared for university.',u1h:'Starting university',u1m:'Joined the B.Tech program in Civil Engineering.',g2:'Engineering',g3:'Sales',g4:'Customer care',gP:'Promotion ↑',gO:'Ongoing today',a1h:'Administrative Assistant',a1m:'Promoted to administrative assistant. Maintained organized filing systems and accurate records, and coordinated between departments. I am still an administrative assistant today.',c1h:'Customer Service Employee',c1m:'I began my customer service journey answering customers\' questions, following up on their requests, and solving their problems.',g5:'Administration',g6:'Now',totL:'followers and subscribers across my top five platforms',f1:'Telegram subscribers',f2:'Instagram followers',f3:'Threads followers',f4:'YouTube subscribers',f5:'TikTok followers',f6:'Facebook followers',upd:'Numbers updated',
-sdSvc:'Pick a service to see how I work on it.',req:'Request this service',sdFollow:'All my accounts in one place.',
+sdSvc:'Pick a service to see how I work on it.',req:'Request this service',rqMsg:'Hello, I would like to request: {s}',rqSub:'Service request: {s}',rqMail:'or by email',rqCopied:'Message copied. Paste it in the Telegram chat',sdFollow:'All my accounts in one place.',
 fEduL:'Education',fEdu:'B.Tech in Civil Engineering',fLangL:'Languages',fLang:'Arabic (native) and fluent English',fFocL:'Focus',fFoc:'Engineering, administration, customer service, content & design',
 profile:'A detail-oriented civil engineer with a passion for innovation and quick adaptability, committed to delivering quality results through both engineering and administrative experience.',j1h:'Structural Engineer, Concrete Project',j1m:'Assisted in designing and reviewing concrete structures, prepared AutoCAD drawings and quantity take-offs, and inspected sites for quality.',j2h:'Sales Associate, Fast Food Restaurant',j2m:'Greeted customers and took orders, operated the POS system, and resolved customer complaints quickly and professionally.',j3h:'Customer Service Manager',j3m:'Promoted from employee to manager. Kept satisfaction above 90%, trained 5+ new hires, and coordinated teams.',j4h:'Administrative Assistant & Quality and Development Officer',j4m:'I still work at the company today as an administrative assistant and quality and development officer. I also create content and offer design services.',h1a:'Waled',h1b:'Fozi',sub:'Diverse, one-of-a-kind content, plus design and account management services.',hAbout:'About me',about:"Hello everyone, I'm Waled Fozi. I'm delighted to meet you all here! I share diverse, one-of-a-kind content. I'd like to thank you for your continued support, and I hope to keep giving you my best. Love you all.",hSvc:'Services',hLife:'My journey',ev1h:'Where it began',ev1m:'I was born this year, and the journey began.',ev2h:'Graduated in Civil Engineering',ev2m:'Bachelor of Technology in Civil Engineering.',ev4h:'Today',ev4m:'I still work at the company as an administrative assistant and quality and development officer, and alongside that I create content, offer design and account management services, and keep growing.',more:'Tap the card to flip it',cBig:"Let's build something extraordinary together",cSub:"Have an idea or a project? Message me and I'll get back to you soon.",copy:'Copy email',copied:'Email copied',hFollow:'Follow me',foot:'All rights reserved to the site owner'}};
 
