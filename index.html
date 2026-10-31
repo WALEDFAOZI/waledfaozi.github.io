@@ -599,7 +599,7 @@ var BI={
  email:['<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>','fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"']};
 function tile(id,cls){var p=PL[id];return '<span class="ti'+(id=='instagram'?' ig':'')+(id=='tiktok'?' tk':'')+(cls?' '+cls:'')+'" style="--bc:'+p[3]+';--fc:'+(p[4]||'#fff')+'">'+svg(BI[id][0],BI[id][1])+'</span>'}
 /* follower counts: refreshed automatically by a scheduled task (Metricool + public profile pages). Keep this on one line. */
-var FOLLOW={"updated":"2026-10-27","counts":{"telegram":6434,"instagram":1612,"threads":748,"youtube":434,"tiktok":248,"facebook":14}};
+var FOLLOW={"updated":"2026-10-31","counts":{"telegram":6434,"instagram":1612,"threads":748,"youtube":434,"tiktok":248,"facebook":14}};
 var FK={telegram:'f1',instagram:'f2',threads:'f3',youtube:'f4',tiktok:'f5',facebook:'f6'};
 var TOP=Object.keys(FOLLOW.counts).filter(function(k){return FK[k]&&FOLLOW.counts[k]>0}).map(function(k){return [k,FOLLOW.counts[k],FK[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5),TOT=TOP.reduce(function(a,t){return a+t[1]},0);
 function updTxt(){var d=new Date(FOLLOW.updated+'T12:00:00');return T[lang].upd+' '+d.toLocaleDateString(lang=='ar'?'ar-u-ca-gregory-nu-latn':'en-GB',{day:'numeric',month:'long',year:'numeric'})}
@@ -698,7 +698,6 @@ var JD=[['1999','1999','ev1h','ev1m','g0','<circle class="s" cx="12" cy="12" r="
  ['2018','2018','u1h','u1m','gU','<path class="s" d="M5 10h3v8H5zM10.5 10h3v8h-3zM16 10h3v8h-3z"/><path d="M2.5 9L12 3l9.5 6z"/><rect x="3" y="19" width="18" height="2.6" rx="1.3"/>',['#b69bff','#7a4fe0']],
  ['2022','2022','ev2h','ev2m','g1','<path class="s" d="M6 12.6v4.2c3.3 2.4 8.7 2.4 12 0v-4.2L12 15.7z"/><path d="M1.5 9.6L12 4l10.5 5.6L12 15.2z"/><rect x="19.6" y="10.2" width="1.7" height="6.2" rx=".85"/>',['#949bff','#4f46e5']],
  ['2022','2022','j1h','j1m','g2','<path class="s" d="M4 16a8 8 0 0116 0z"/><rect x="2.5" y="16" width="19" height="3.2" rx="1.6"/><path d="M10 6.6a2 2 0 014 0V13h-4z"/>',['#fbbf5a','#d9861b']],
- ['2023','2023','j2h','j2m','g3','<path class="s" d="M4.5 8h15l-1.3 12.2A2 2 0 0116.2 22H7.8a2 2 0 01-2-1.8z"/><path d="M8 8V7a4 4 0 018 0v1h-2V7a2 2 0 00-4 0v1z"/><circle cx="12" cy="15" r="2.4"/>',['#f88cc4','#d0377f']],
  ['2023','2023','c1h','c1m','g4','<path class="s" d="M12 2.5a8.5 8.5 0 00-8.5 8.5v4h2.2v-4a6.3 6.3 0 1112.6 0v4h2.2v-4A8.5 8.5 0 0012 2.5z"/><rect x="2.5" y="11.5" width="4.2" height="7" rx="2.1"/><rect x="17.3" y="11.5" width="4.2" height="7" rx="2.1"/><path d="M19.4 18.5v.8a2.7 2.7 0 01-2.7 2.7H13v-2h3.7a.7.7 0 00.7-.7v-.8z"/>',['#4ad9bd','#0f9a83']],
  ['2024','2024','j3h','j3m','gP','<path class="s" d="M4 3.5h16a2 2 0 012 2v9a2 2 0 01-2 2h-8l-5 4v-4H4a2 2 0 01-2-2v-9a2 2 0 012-2z"/><circle cx="8" cy="10" r="1.5"/><circle cx="12" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/>',['#4ad9bd','#0f9a83']],
  ['2025','2025','a1h','a1m','g5','<path class="s" d="M2 7a3 3 0 013-3h4.5l2 2.5H19a3 3 0 013 3V18a3 3 0 01-3 3H5a3 3 0 01-3-3z"/><path d="M2 10.5h20V18a3 3 0 01-3 3H5a3 3 0 01-3-3z"/>',['#6fb3ff','#2f6fdc'],1],
