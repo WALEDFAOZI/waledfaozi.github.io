@@ -21,11 +21,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23111826'/%3E%3Ctext x='50' y='64' font-size='40' font-weight='700' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3EW%3Ctspan fill='%23dba64e'%3EF%3C/tspan%3E%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>
 /* layout: one calm column, warm-gold accent on cool paper; light by default, dark via toggle */
 :root{--bg:#f4f6fa;--ink:#111826;--mute:#5b6577;--soft:#2e3947;--gold:#a8701a;--gold2:#dba64e;--onp:#fff;--line:#dde3ec;--card:#fff;--glass:rgba(255,255,255,.78);--ghost:rgba(17,24,38,.07);--bandbg:rgba(255,255,255,.85);--rgb:168,112,26;--irgb:17,24,38;--shine:rgba(255,255,255,.75);--sh:none;--band:#dba64e;--bandtx:#111826;
---fd:"IBM Plex Sans Arabic",Tahoma,sans-serif;--fb:"IBM Plex Sans Arabic",Tahoma,sans-serif;--fh:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;color-scheme:light;
+--fd:"IBM Plex Sans Arabic",Tahoma,sans-serif;--fb:"IBM Plex Sans Arabic",Tahoma,sans-serif;--fh:"IBM Plex Sans Arabic",Tahoma,sans-serif;color-scheme:light;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html[data-theme=dark]{--bg:#0b1017;--ink:#eee9e1;--mute:#8f9aa8;--soft:#cfd3da;--gold:#e8b86a;--gold2:#fbe2ad;--onp:#1a1206;--line:#222c3a;--card:#121a25;--glass:rgba(18,25,35,.72);--ghost:rgba(238,233,225,.08);--bandbg:rgba(11,16,23,.8);--rgb:232,184,106;--irgb:238,233,225;--shine:rgba(255,255,255,.09);--sh:none;--band:#e8b86a;color-scheme:dark}
 html{scroll-padding-top:calc(90px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
@@ -180,7 +180,6 @@ html[dir=ltr] .btn:hover svg{transform:translateX(4px)}
 
 /* ===== reach ===== */
 .rc{display:grid;gap:14px}
-#reach{background:var(--band);box-shadow:0 0 0 100vmax var(--band);clip-path:inset(0 -100vmax);--ink:var(--bandtx);--soft:var(--bandtx);--mute:rgba(17,24,38,.72);--line:rgba(17,24,38,.28);--card:transparent;--ghost:rgba(17,24,38,.1);--gold:var(--bandtx);--bg:var(--band)}
 .tot{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:24px 56px}
 
 .tot>*{position:relative}
@@ -481,7 +480,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin
   </nav>
   <div class="ctl"><button id="lang" type="button">EN</button><button id="theme" type="button" aria-label="Theme"></button><button id="menu" type="button" aria-expanded="false" aria-controls="sheet"><span class="mb"><i></i><i></i></span><span data-k="menu">القائمة</span></button></div>
 </header>
-<div id="sheet" aria-hidden="true"><nav class="shl" id="shl"></nav><div class="shf"><div class="soc" id="shsoc"></div><a class="em" href="mailto:waledfaozi@gmail.com">waledfaozi@gmail.com</a></div></div>
+<div id="sheet" aria-hidden="true"><nav class="shl" id="shl"></nav><div class="shf"><div class="soc" id="shsoc"></div></div></div>
 
 <main id="top">
   <section class="hero">
@@ -637,7 +636,7 @@ var FOLLOW={"updated":"2026-11-03","counts":{"telegram":6434,"instagram":1612,"t
 var FK={telegram:'f1',instagram:'f2',threads:'f3',youtube:'f4',tiktok:'f5',facebook:'f6'};
 var TOP=Object.keys(FOLLOW.counts).filter(function(k){return FK[k]&&FOLLOW.counts[k]>0}).map(function(k){return [k,FOLLOW.counts[k],FK[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5),TOT=TOP.reduce(function(a,t){return a+t[1]},0);
 function updTxt(){var d=new Date(FOLLOW.updated+'T12:00:00');return T[lang].upd+' '+d.toLocaleDateString(lang=='ar'?'ar-u-ca-gregory-nu-latn':'en-GB',{day:'numeric',month:'long',year:'numeric'})}
-var ORDER=['telegram','instagram','threads','youtube','tiktok','x','snapchat','facebook','twitch','kick','reddit','pinterest','email'];
+var ORDER=['telegram','instagram','threads','youtube','tiktok','x','snapchat','facebook','twitch','kick','reddit','pinterest'];
 
 /* odometer: every digit is a strip that rolls through 0-9 twice before landing */
 function odo(el,n,anim){var s=n.toLocaleString('en-US');el.innerHTML='';el.setAttribute('aria-label',s);var k=0;
@@ -700,7 +699,7 @@ function size(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;c.setTransform
 size();addEventListener('resize',size);
 function paint(f,al){c.save();c.translate(f.x,f.y);c.rotate(f.rot);c.globalAlpha=al;
  if(f.k=='p'){c.font='500 '+f.s+'px "IBM Plex Sans Arabic",sans-serif';c.fillStyle='rgb('+(f.col||IRGB)+')';c.fillText(f.t,0,0)}
- else{c.font='700 '+f.s+'px "Reem Kufi",sans-serif';if(f.st){c.lineWidth=1.1;c.strokeStyle='rgb('+DC+')';c.strokeText(f.t,0,0)}else{c.fillStyle='rgb('+DC+')';c.fillText(f.t,0,0)}}
+ else{c.font='700 '+f.s+'px "IBM Plex Sans Arabic",sans-serif';if(f.st){c.lineWidth=1.1;c.strokeStyle='rgb('+DC+')';c.strokeText(f.t,0,0)}else{c.fillStyle='rgb('+DC+')';c.fillText(f.t,0,0)}}
  c.restore()}
 function draw(){
   var W=innerWidth,Hh=innerHeight,i,ds=Math.max(-30,Math.min(30,scrollY-ls));ls=scrollY;c.clearRect(0,0,W,Hh);c.textAlign='center';c.textBaseline='middle';c.direction=lang=='ar'?'rtl':'ltr';
@@ -818,7 +817,7 @@ function rainLetters(){if(reduce)return;
  setTimeout(function(){cv2.remove()},14000);
  (function f(now){var dt=Math.min(.12,(now-last)/1000),live=0;last=now;x.clearRect(0,0,W,H);
   L.forEach(function(p){if(now-t0<p.d){live++;return}p.y+=p.v*dt;p.ph+=dt*2.2;p.r+=p.vr*dt;if(p.y>H+60)return;live++;
-   x.save();x.translate(p.x+Math.sin(p.ph)*16,p.y);x.rotate(p.r);x.globalAlpha=Math.min(1,(p.y+60)/160)*.9;x.font='700 '+p.s+'px "Reem Kufi","IBM Plex Sans Arabic",sans-serif';
+   x.save();x.translate(p.x+Math.sin(p.ph)*16,p.y);x.rotate(p.r);x.globalAlpha=Math.min(1,(p.y+60)/160)*.9;x.font='700 '+p.s+'px "IBM Plex Sans Arabic",sans-serif';
    if(p.o){x.lineWidth=1.6;x.strokeStyle='rgb('+p.c+')';x.strokeText(p.t,0,0)}else{x.fillStyle='rgb('+p.c+')';x.fillText(p.t,0,0)}x.restore()});
   if(live)requestAnimationFrame(f);else cv2.remove()})(t0)}
 function eggTap(){var n=performance.now();egN=(n-egT<1800)?egN+1:1;egT=n;if(egN>=5){egN=0;rainLetters();track('easter-egg');say(phrase())}}
