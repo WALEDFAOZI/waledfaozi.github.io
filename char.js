@@ -3,8 +3,23 @@
    swings off with a flip, lands, checks his watch, panics, and sprints across with papers until he slips. */
 (function () {
   'use strict';
-  try { if (localStorage.getItem('wchar') === 'off') return; } catch (e) {}
   if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  // ?wc in the address brings him back after "Hide character"; while hidden, the footer offers the same
+  try {
+    if (new URLSearchParams(location.search).has('wc')) localStorage.removeItem('wchar');
+    if (localStorage.getItem('wchar') === 'off') {
+      var ft = document.querySelector('footer');
+      if (ft) {
+        var back = document.createElement('button');
+        back.type = 'button'; back.className = 'pv';
+        back.style.cssText = 'background:none;border:0;padding:0;font:inherit;cursor:pointer';
+        back.textContent = document.documentElement.lang === 'en' ? 'Show character' : 'إظهار الشخصية';
+        back.addEventListener('click', function () { try { localStorage.removeItem('wchar'); } catch (e) {} location.reload(); });
+        ft.appendChild(back);
+      }
+      return;
+    }
+  } catch (e) {}
 
   var PI = Math.PI, sin = Math.sin, cos = Math.cos, abs = Math.abs;
   var cv = document.createElement('canvas'), x = cv.getContext('2d');
