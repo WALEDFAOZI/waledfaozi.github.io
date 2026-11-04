@@ -506,11 +506,11 @@
     if (r3tried) return; r3tried = true;
     import('./char3d.js').then(function (m) { R3 = m.init(); }).catch(function () { R3 = null; });
   }
-  setTimeout(load3d, q('wc') ? 0 : 3500);
+  setTimeout(load3d, q('wc') ? 0 : 1000);
 
   window.__wc.step = function (sec) { for (var i = 0; i < Math.round(sec * 60); i++) update(1 / 60); render(1 / 60); return act; };
   window.__wc.r3 = function () { return !!R3; };
   window.__wc.state = function () { return { on: on, act: act, t: t, hip: hip, dir: dir, S: S, word: !!(st.tg && st.tg.word), el: st.tg && st.tg.el.tagName + ':' + (st.tg.el.textContent || '').slice(0, 20), wa: st.tg && st.tg.a }; };
   window.__wc.perform = perform;
-  timer = setTimeout(schedule, q('wc') ? 1500 : 11000);
+  timer = setTimeout(schedule, q('wc') ? 1500 : 5000);
 })();
