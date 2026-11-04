@@ -139,7 +139,10 @@
   /* ---------- world state ---------- */
   var on = false, act = '', t = 0, clock = 0, hip = { x: 0, y: 0 }, vel = { x: 0, y: 0 }, dir = 1, rot = 0, grip = null;
   var cp = P(), tp = P(), carry = false, sheets = [], puffs = [], st = {}, phi = 0, timer = 0, last = 0, raf = 0, ground = false;
-  var sq = 1, sqv = 0, face = {}, wob = [];
+  var sq = 1, sqv = 0, face = {}, wob = [], rips = [], firstScene = true;
+  function rip(px, py, s) { rips.push({ x: px, y: py, s: s || 1, l: 0, d: .6 }); }
+  // where the head sits when only the top of it shows above the bottom edge
+  function peekHip() { return Hh - HR * .4 - fk(P()).hc.y; }
   var g = 2400, gF = 1700;
   window.__wc = { ts: 1 };
 
@@ -240,8 +243,20 @@
   }
 
   /* ---------- the performance ---------- */
+  function startPeek() {
+    st = { peek: true };
+    dir = 1; rot = 0; vel = { x: 0, y: 0 }; carry = false; grip = null; ground = false; sq = 1; sqv = 0;
+    tp = P(); cp = P(tp);
+    hip.x = W * (.3 + Math.random() * .4); hip.y = Hh + S * 1.2;
+    on = true; go('pkup'); btn.classList.add('on');
+    last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+    return true;
+  }
   function perform() {
     if (on) return true;
+    var wantPeek = R3 && (q('wc') === 'peek' || firstScene || Math.random() < .45);
+    if (R3) firstScene = false;
+    if (wantPeek) return startPeek();
     var tg = pickTarget();
     if (!tg) return false;
     st = { tg: tg, y0: -S * .9 };
@@ -255,7 +270,7 @@
     return true;
   }
   function stop() {
-    on = false; sheets.length = 0; puffs.length = 0; cancelAnimationFrame(raf); clearTimeout(timer);
+    on = false; sheets.length = 0; puffs.length = 0; rips.length = 0; cancelAnimationFrame(raf); clearTimeout(timer);
     wob.forEach(function (w) { w.el.style.rotate = ''; w.el.style.transformOrigin = ''; }); wob = [];
     render(0); if (R3) R3.canvas.remove(); btn.classList.remove('on');
   }
@@ -272,8 +287,103 @@
   function update(dt) {
     t += dt; clock += dt;
     var f, an;
-    face = { mouth: 'smile', brow: 0, look: 0, gl: 0, dizzy: false };
+    face = { mouth: 'smile', brow: 0, look: 0, gl: 0, dizzy: false, fc: 0, turn: 0 };
     if (on) switch (act) {
+      /* ---- the "stuck behind the screen" scene ---- */
+      case 'pkup': {
+        // rises from under the bottom edge until just his head shows
+        var u1 = Math.min(1, t / .9), e1 = 1 - Math.pow(1 - u1, 3), y0 = Hh + S * 1.2;
+        hip.y = y0 + (peekHip() - y0) * e1; ground = false;
+        tp = P({ hl: .05 }); ease(cp, tp, dt, 14); face.fc = 1;
+        if (t > .9) go('pkscan');
+        break;
+      }
+      case 'pkscan': {
+        st.turn = .55 * sin(t * 2.6); face.turn = st.turn; face.fc = 1; face.brow = t > 1 ? 1 : 0;
+        hip.y = peekHip() + .01 * S * sin(t * 3);
+        tp = P({ hl: .05 }); ease(cp, tp, dt, 14);
+        if (t > 2) go('pkspot');
+        break;
+      }
+      case 'pkspot': {
+        // sees you: head snaps to the front, eyes wide
+        if (!st.spot) { st.spot = 1; squash(1.12); }
+        face.turn = (st.turn || 0) * max0(1 - t / .22); face.fc = 1; face.look = 0; face.brow = 1; face.mouth = 'o';
+        hip.y = peekHip() - .05 * S * sin(Math.min(1, t / .3) * PI);
+        tp = P({ hl: -.12 }); ease(cp, tp, dt, 16);
+        if (t > .75) go('pkclimb');
+        break;
+      }
+      case 'pkclimb': {
+        var u2 = Math.min(1, t / .9), e2 = 1 + 2.7 * Math.pow(u2 - 1, 3) + 1.7 * Math.pow(u2 - 1, 2), pk = peekHip();
+        hip.y = pk + (standHip() - pk) * e2; ground = false;
+        tp = P({ tl: .1, a1n: 1.3, a2n: 1.6, a1f: 1.2, a2f: 1.55 }); ease(cp, tp, dt, 14);
+        face.fc = 1; face.mouth = 'grit'; face.brow = -1;
+        if (t > .9) { squash(.8); puff(hip.x, FL, 8, 200); go('pkpush'); }
+        break;
+      }
+      case 'pkpush': {
+        // palms flat on the glass, leaning into it
+        var pr = .5 + .5 * sin(t * 5.5);
+        tp = P({ tl: .08 + .22 * pr, hl: -.1, a1n: 1.38, a2n: 1.5, a1f: 1.38, a2f: 1.5, b1n: .3 * pr, b2n: -.05, b1f: -.14, b2f: -.12 });
+        ease(cp, tp, dt, 20); groundY(); face.fc = 1; face.mouth = pr > .6 ? 'grit' : 'o'; face.brow = -1;
+        if (pr > .92 && !st.hit) { st.hit = 1; squash(.95); rip(hip.x - .1 * S, hip.y - T * .9, 1); rip(hip.x + .1 * S, hip.y - T * .9, 1); }
+        if (pr < .3) st.hit = 0;
+        if (t > 2.6) { st.hit = 0; st.kd = 0; go('pkknock'); }
+        break;
+      }
+      case 'pkknock': {
+        // bangs on the glass with both fists, shouting
+        var sw = sin(t * 20), sw2 = sin(t * 20 + PI);
+        tp = P({ tl: .12, hl: -.1 + .1 * sin(t * 9), a1n: 1.25 + .25 * sw, a2n: 1.7 + .25 * sw, a1f: 1.25 + .25 * sw2, a2f: 1.7 + .25 * sw2, b1n: .08, b1f: -.08 });
+        ease(cp, tp, dt, 26); groundY(.012 * S * abs(sw)); face.fc = 1;
+        face.mouth = sin(t * 15) > 0 ? 'o' : 'grin'; face.brow = -1;
+        var kd = sw > .85 ? 1 : sw2 > .85 ? 2 : 0;
+        if (kd && kd !== st.kd) { rip(hip.x + (kd === 1 ? -1 : 1) * .1 * S, hip.y - T * .95, .6); }
+        st.kd = kd;
+        if (t > 2.2) { st.slam = 0; go('pkram'); }
+        break;
+      }
+      case 'pkram': {
+        if (t < .7) {
+          if (!st.crouch) { st.crouch = 1; squash(.88); }
+          tp = P({ tl: -.25, hl: .1, a1n: -.7, a2n: -.4, a1f: -.8, a2f: -.5, b1n: .6, b2n: -.3, b1f: .5, b2f: -.4 });
+          ease(cp, tp, dt, 14); groundY(); face.fc = 1; face.mouth = 'grit'; face.brow = -1;
+        } else if (t < 1) {
+          tp = P({ tl: .7, hl: -.2, a1n: .9, a2n: 1.3, a1f: .7, a2f: 1.2, b1n: .4, b2n: .2, b1f: -.2, b2f: -.2 });
+          ease(cp, tp, dt, 34); groundY(.04 * S * sin((t - .7) / .3 * PI)); face.fc = 1; face.mouth = 'o'; face.brow = 1;
+          if (t > .9 && !st.slam) { st.slam = 1; squash(.62); puff(hip.x, FL, 8, 200); rip(hip.x, hip.y - T * 1.05, 1.8); }
+        } else {
+          // bounces off and wobbles, seeing stars
+          var bu = Math.min(1, (t - 1) / .45);
+          tp = P({ tl: -.5 + .2 * sin(t * 6), hl: .25, a1n: 2.1, a2n: 2.2, a1f: 1.8, a2f: 2.0, b1n: .2, b2n: .1, b1f: -.1, b2f: -.1 });
+          ease(cp, tp, dt, 14); ground = false; hip.y = standHip() - .12 * S * sin(bu * PI);
+          face.fc = 1; face.dizzy = true; face.mouth = 'o'; face.brow = 1; face.gl = .7;
+          if (t > 2.1) go('pkgiveup');
+        }
+        break;
+      }
+      case 'pkgiveup': {
+        face.fc = 1;
+        if (t < .9) {
+          if (!st.sigh) { st.sigh = 1; squash(.94); }
+          tp = P({ tl: .22, hl: .35, a1n: .05, a2n: .05, a1f: -.05, a2f: -.05 }); face.mouth = 'o'; face.brow = 1;
+        } else {
+          // a little wave goodbye
+          tp = P({ tl: -.05, hl: -.05, a1n: 2.5 + .4 * sin(t * 12), a2n: 2.9 + .5 * sin(t * 12), a1f: .05, a2f: .05 });
+          face.mouth = 'grin'; face.brow = 1;
+        }
+        ease(cp, tp, dt, 14); groundY();
+        if (t > 2.2) go('pksink');
+        break;
+      }
+      case 'pksink': {
+        var u3 = Math.min(1, t / .9), y1 = standHip();
+        hip.y = y1 + (Hh + S * 1.3 - y1) * u3 * u3; ground = false;
+        tp = P({ a1n: .1, a2n: .1 }); ease(cp, tp, dt, 14); face.fc = 1;
+        if (t > .95) finish();
+        break;
+      }
       case 'fall': {
         an = anchorOf(); if (!an) { lose(); break; }
         var u = Math.min(1, t / .9), fh = fk(tp);
@@ -438,7 +548,8 @@
     if (on && grip && (act === 'hang' || act === 'lurch' || act === 'pump')) {
       f = fk(cp); hip.x = grip.x - dir * f.hn.x; hip.y = grip.y - f.hn.y;
     }
-    if (act !== 'land' && act !== 'tada' && act !== 'watch' && act !== 'windup' && act !== 'dash' && act !== 'run2' && act !== 'run3' && act !== 'slip') ground = false;
+    for (var ri = rips.length - 1; ri >= 0; ri--) { rips[ri].l += dt; if (rips[ri].l > rips[ri].d) rips.splice(ri, 1); }
+    if (act.indexOf('pk') !== 0 && act !== 'land' && act !== 'tada' && act !== 'watch' && act !== 'windup' && act !== 'dash' && act !== 'run2' && act !== 'run3' && act !== 'slip') ground = false;
     sqv += (-(sq - 1) * 300 - sqv * 13) * dt; sq = Math.max(.6, Math.min(1.35, sq + sqv * dt));
     stepWords(dt);
     for (var si = sheets.length - 1; si >= 0; si--) {
@@ -458,10 +569,19 @@
       R3.render({
         on: on, p: cp, hip: hip, dir: dir, rot: rot, carry: carry, sheets: sheets, S: S, W: W, Hh: Hh, dt: dt,
         grip: on && (act === 'hang' || act === 'lurch' || act === 'pump') ? grip : null,
-        sq: sq, sqPiv: ground ? FEET : 0, mouth: face.mouth, brow: face.brow, look: face.look, gl: face.gl, dizzy: face.dizzy, clock: clock
+        sq: sq, sqPiv: ground ? FEET : 0, mouth: face.mouth, brow: face.brow, look: face.look, gl: face.gl, dizzy: face.dizzy, clock: clock,
+        fc: face.fc, turn: face.turn
       });
     }
-    if (!on && !sheets.length && !puffs.length) return;
+    if (!on && !sheets.length && !puffs.length && !rips.length) return;
+    // rings on the "glass" where his hands and shoulder hit it
+    rips.forEach(function (r) {
+      var k = r.l / r.d, rad = S * (.05 + .2 * k) * r.s;
+      x.globalAlpha = (1 - k) * .9; x.lineWidth = 3;
+      x.strokeStyle = 'rgba(255,255,255,.95)'; x.beginPath(); x.ellipse(r.x, r.y, rad, rad * .85, 0, 0, PI * 2); x.stroke();
+      x.lineWidth = 1.5; x.strokeStyle = 'rgba(90,100,125,.55)'; x.beginPath(); x.ellipse(r.x, r.y, rad + 3, (rad + 3) * .85, 0, 0, PI * 2); x.stroke();
+    });
+    x.globalAlpha = 1;
     puffs.forEach(function (p) { var k = 1 - p.l / p.d; x.globalAlpha = .55 * k; circ(p.x, p.y, p.r * (1 + (1 - k) * 1.5), '#9aa0ad'); });
     x.globalAlpha = 1;
     // contact shadow: darker and tighter the closer he is to the floor
@@ -496,7 +616,7 @@
     var dt = Math.min(.05, (now - last) / 1000) * (window.__wc.ts || 1); last = now;
     update(dt);
     render(dt);
-    if (on || sheets.length || puffs.length || wob.length) raf = requestAnimationFrame(loop);
+    if (on || sheets.length || puffs.length || wob.length || rips.length) raf = requestAnimationFrame(loop);
   }
 
   /* the 3D body loads in the background; until it is ready (or if WebGL is missing) the flat drawing is used */

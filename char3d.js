@@ -211,7 +211,7 @@ export function init() {
 
   /* ---------- per-frame ---------- */
   const vA = new THREE.Vector3(), vB = new THREE.Vector3();
-  let W = 0, H = 0, corr = { x: 0, y: 0 }, lookS = 0, glS = 0;
+  let W = 0, H = 0, corr = { x: 0, y: 0 }, lookS = 0, glS = 0, fcS = 0;
   const YAW = .95;
   function render(s) {
     if (s.W !== W || s.Hh !== H) {
@@ -236,11 +236,13 @@ export function init() {
 
       const q = s.sq || 1, qx = 1 / Math.sqrt(q);
       scaleG.scale.set(S * qx, S * q, S * qx);
-      yaw.rotation.y = s.dir > 0 ? YAW : -YAW;
+      // fc turns the whole body square to the screen; turn swings the head on top of that
+      fcS += ((s.fc || 0) - fcS) * Math.min(1, dt * 7);
+      yaw.rotation.y = (s.dir > 0 ? YAW : -YAW) * (1 - fcS);
       flip.rotation.x = s.rot || 0;
       torso.rotation.x = p.tl;
       lookS += ((s.look || 0) - lookS) * Math.min(1, dt * 6);
-      headPivot.rotation.y = -yaw.rotation.y * .8 * lookS;
+      headPivot.rotation.y = -yaw.rotation.y * .8 * lookS + (s.turn || 0);
       headPivot.rotation.x = p.hl + nod.x;
       const nearLeft = s.dir > 0;
       const A = nearLeft ? [armL, armR] : [armR, armL], Lg = nearLeft ? [legL, legR] : [legR, legL];
