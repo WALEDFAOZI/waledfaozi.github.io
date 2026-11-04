@@ -6,7 +6,7 @@ import { RoomEnvironment } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exam
 export function init() {
   const cv = document.createElement('canvas');
   cv.id = 'wchar3d'; cv.setAttribute('aria-hidden', 'true');
-  cv.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:58';
+  cv.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1';
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true, powerPreference: 'low-power' });
   document.body.appendChild(cv);
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));

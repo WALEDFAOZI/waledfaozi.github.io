@@ -9,7 +9,7 @@
   var PI = Math.PI, sin = Math.sin, cos = Math.cos, abs = Math.abs;
   var cv = document.createElement('canvas'), x = cv.getContext('2d');
   cv.id = 'wchar'; cv.setAttribute('aria-hidden', 'true');
-  cv.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:57';
+  cv.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1';
   document.body.appendChild(cv);
 
   var W, Hh, dpr, S, FL, T, N, HR, U, F, Th, Sh, SHOE;
@@ -190,12 +190,12 @@
 
   /* ---------- choosing a box to hang from ---------- */
   function pickTarget() {
-    var sel = ['h1 span', '#badge', '.jc', '.cbox', '#reach .tot', '.dock'], list = [], maxTop = Math.min(Hh * .6, Hh - S * 1.15);
+    var sel = ['h1 span', '#badge', '.jc', '.cbox', '#reach .tot', '.dock'], list = [], maxTop = Hh - S * 1.1;
     sel.forEach(function (s) {
       var els = document.querySelectorAll(s);
       for (var i = 0; i < els.length; i++) {
         var r = els[i].getBoundingClientRect();
-        if (r.width > 110 && r.height > 36 && r.top > 90 + S * .25 && r.top < maxTop && r.left >= 0 && r.right <= W + 4) list.push({ el: els[i], pri: s === 'h1 span' ? 3 : 1 });
+        if (r.width > 110 && r.height > 36 && r.bottom > 90 + S * .25 && r.bottom < maxTop && r.left >= 0 && r.right <= W + 4) list.push({ el: els[i], pri: s === 'h1 span' ? 3 : 1 });
       }
     });
     if (!list.length) return null;
@@ -204,8 +204,9 @@
   }
   function anchorOf() {
     var r = st.el.getBoundingClientRect();
-    if (r.top < 70 || r.top > Hh - 120) return null;
-    return { x: r.left + r.width * st.fx, y: r.top };
+    // he hangs behind the content, so he grips the box's bottom edge and dangles below it
+    if (r.bottom < 70 || r.bottom > Hh - S * .9) return null;
+    return { x: r.left + r.width * st.fx, y: r.bottom - .03 * S };
   }
 
   /* ---------- the performance ---------- */
@@ -217,7 +218,7 @@
     var r = tg.el.getBoundingClientRect(), ax = r.left + r.width * st.fx;
     dir = ax < W / 2 ? 1 : -1; rot = 0; vel = { x: 0, y: 0 }; suit = false; carry = false; web = null; grip = null; ground = false; sitting = false;
     tp = hangPose(0, 0, 0); tp.a1n = tp.a1f = PI - .25; tp.a2n = tp.a2f = PI - .3; cp = P(tp);
-    var f = fk(tp); st.drop = { y0: -S * .9, y1: r.top - f.hn.y };
+    var f = fk(tp); st.drop = { y0: -S * .9 };
     hip.x = ax - dir * f.hn.x; hip.y = st.drop.y0;
     on = true; go('fall'); btn.classList.add('on');
     last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
