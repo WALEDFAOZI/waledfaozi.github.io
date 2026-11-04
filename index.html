@@ -435,7 +435,7 @@ html[dir=ltr] .jarr svg{scale:-1 1}
   .dk .ti{width:56px}
   .dk .lb,.dk:hover .lb,.dk:focus-visible .lb{position:static;translate:none;opacity:1;background:none;color:var(--soft);padding:8px 0 0;font-size:12.5px}
 }
-footer .pv{color:var(--mute);text-decoration:underline;text-underline-offset:4px}footer .pv:hover,footer .pv:focus-visible{color:var(--gold);outline:none}footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:80px;padding:28px 0 56px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+.wcx{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:59;font:500 12px var(--fb);color:var(--mute);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}.wcx.on{opacity:.85;pointer-events:auto}.wcx:hover,.wcx:focus-visible{opacity:1;color:var(--ink);outline:none}footer .pv{color:var(--mute);text-decoration:underline;text-underline-offset:4px}footer .pv:hover,footer .pv:focus-visible{color:var(--gold);outline:none}footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:80px;padding:28px 0 56px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
 
 /* ===== floating ===== */
 #totop{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline-end:20px;z-index:15;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--card);box-shadow:var(--sh);color:var(--ink);text-decoration:none;opacity:0;scale:.6;pointer-events:none;transition:opacity .35s,scale .35s}
@@ -467,6 +467,7 @@ footer .pv{color:var(--mute);text-decoration:underline;text-underline-offset:4px
   .js h1 span,.js .hx,.js .rv,.js .w{opacity:1!important;translate:none!important;transform:none!important;filter:none!important}
   .js #intro{display:none}}
 </style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js"}}</script>
 </head>
 <body>
 <div id="intro" aria-hidden="true"><div class="ii"><svg viewBox="0 0 100 100"><rect x="4" y="4" width="92" height="92" rx="26"/></svg><span dir="ltr">W<b>F</b></span></div></div>
@@ -866,5 +867,6 @@ if(reduce||!intro)go();else{setTimeout(go,1300);setTimeout(go,2500)}
 </script>
 <script>if(location.hash=='#skipgc'){try{localStorage.setItem('skipgc','t')}catch(e){}}</script>
 <script data-goatcounter="https://waledfaozi.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="char.js" defer></script>
 </body>
 </html>
